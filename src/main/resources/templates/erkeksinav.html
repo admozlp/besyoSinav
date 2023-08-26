@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Erkek Sınav Ekranı</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+<div th:replace="fragments :: ust-menu"></div>
+	<style type="text/css">
+.popup {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+}
+
+.popup-content {
+    background-color: white;
+    border-radius: 8px;
+    width: 300px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.popup-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.popup-icons {
+    text-align: center;
+    font-size: 30px;
+    margin-bottom: 20px;
+    color: #FF6347;
+}
+
+.popup-buttons {
+    display: flex;
+    justify-content: center;
+}
+
+.btn-yes {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin-right: 10px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn-no {
+    background-color: #FF6347;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+	
+	
+	</style>
+</head>
+<body>
+	<div class="container" style="background-color: #f7f7f7; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+	
+		<div id="confirmPopup" class="popup">
+		    <div class="popup-content">
+		        <div class="popup-header">
+		            <span style="text-align:center;">Parkura almak istiyor musunuz ?</span>
+		        </div>
+		        <div class="popup-icons">
+		            <i class="fas fa-exclamation-circle"></i>
+		        </div>
+		        <div class="popup-buttons">
+		            <button id="confirmYes" class="btn-yes">Evet</button>
+		            <button id="confirmNo" class="btn-no">İptal</button>
+		        </div>
+		    </div>
+		</div>
+
+	
+	<div class = "row">
+		<div class="col-md-4">
+			<div th:if="${param.error}" class="alert alert-danger">
+				<h3>Kayıt başarısız tekrar deneyin</h3>
+			</div>
+			<div>
+				<form th:action="@{/erkeksinav}" method="get">
+					<input class="form-control form-control-md col" type="text" maxlength="11" name="tcno" autofocus="autofocus"
+						required="required" placeholder="TC ile seç"  style="border-color: green; box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25);">
+					<button type="submit" class="btn btn-success" style="width:100%;  margin-top:10px;">Ara</button>
+				</form>
+			</div>
+			<a th:href="@{/anlikerkek}"><button
+					style="margin-top: 10px; margin-bottom:10px; width: 100%;"
+					class="btn btn-success">Anlık Öğrenci Çek</button></a>
+			<div th:if="${param.aktifadaymevcut}"   class="alert alert-danger"> 
+					Parkurda aday mevcut !
+			</div>
+
+			<div  th:if="${ogrenci != null}">
+				<img style="max-width: 100%; border-radius: 4px; height: 300px;" th:src="${path}" alt="Aday ogrenci">
+			</div>
+			<div  th:if="${ogrenci != null}">
+				
+				<form th:action="@{/parkuralerkek}"  id="parkuralForm">
+					<input  name="tcno"  th:value="${ogrenci.getTcNo()}"   style="display:none;"/>									
+				</form>						
+				<button class="btn btn-success" style="width:100%;  margin-top:10px;"  id="parkurAlBtn">Parkura Al</button>
+				
+				<p>
+					Tc no : <b  name="tcno"   th:text="${ogrenci.getTcNo()}"></b>
+				</p>
+				<p>
+					Ad Soyad : <b th:text="${ogrenci.getAdSoyad()}"></b>
+				</p>
+				<p>
+					Tercih Edilen Bölüm : <b th:text="${ogrenci.getBasBolum()}"></b>
+				</p>
+				<p>
+					Milli : <b th:text="${ogrenci.getMilliSporcu()}"></b>
+				</p>
+				<p>
+					Durum : <b th:text="${ogrenci.getDurum().getDurumu()}"></b>
+				</p>
+				<p>
+					Yerleştirme Puanı : <b th:text="${ogrenci.getYp()}"></b>
+				</p>
+			</div>
+		</div>
+
+		<div class="col-md-2">
+			<div th:if="${ogrenci != null}">
+				<form method="get" th:action="@{/erkekhesapla}" >
+					<div>
+							<input  name="tcno"  th:value="${ogrenci.getTcNo()}"   style="display:none;"/>
+							<label for="sure" class="form-label">Süre </label> 					
+							<input id="sure"    oninput="limitDecimalDigits(this)"  name="sure"  th:value="${ogrenci.getSinav().getSure()}" style="margin-bottom: 10px;" type="text" class="form-control form-control-md col"placeholder="Süre">  
+							<label for="hataPuani" class="form-label">Hata puanı </label>
+							<input id="hataPuani" name="hataPuani"  th:value="${ogrenci.getSinav().getHataPuani()}"  type="text" class="form-control form-control-md col" placeholder="Hata Puanı">
+					</div>
+					<button type="submit" class="btn btn-success" style="width:100%;  margin-top:10px;">Hesapla</button>
+				</form>
+
+				<form method="post" th:action="@{/erkekkaydet}" >
+					<div th:if="${ogrenci != null}">
+						<input name="tcno"  th:value="${ogrenci.getTcNo()}"   style="display:none;"/>
+						<p style="margin-top:10px;">
+							Ham Puan :<b th:text="${ogrenci.getSinav().getHamPuani()}"></b>
+						</p>
+						<p>
+							Puan : <b th:text="${ogrenci.getSinav().getPuan()}"></b>
+						</p>
+					</div>
+					<select name="selectedOption" style="margin-bottom: 10px;"
+						class="form-select form-control">
+						<option th:each="option : ${options}" th:text="${option}"
+							th:selected="${option == selectedOption}"></option>
+					</select>
+					<button type="submit"  class="btn btn-success" style="width:100%;  margin-top:10px;">Kaydet</button>
+				</form>
+			</div>
+		</div>
+		
+		<div class="col-md-6">
+			<div>
+				<form th:action="@{/erkekadsoyad}" method="get">
+				<div class="alert alert-warning" th:if="${param.mevcutdegil}">
+					<p>Aday mevcut değil</p>
+				</div>
+				<label for="arama" class="form-label" style="margin-top:10px;">Ad soyad, Id, Sıra No, Telefon No</label>
+					<input  class="form-control form-control-md col"	type="text" name="aday" autofocus="autofocus" style="border-color: green; box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25);"
+						 placeholder="Ad soyad, Id, Sıra No, Telefon No" id="arama">
+					<button type="submit" class="btn btn-success" style="width:100%;  margin-top:10px; margin-bottom:10px;">Ara</button>
+				</form>
+			</div>
+			<div class="table-responsive" id="table" th:if="${malestudents != null}">
+				<h3>Erkek Adaylar <smaal th:text="${malestudents.size()}"></smaal> kişi</h3>
+				<table class="table table-bordered">
+					<thead>
+						<tr>
+							<th>Seç</th>
+							<th>Id</th>
+							<th>Ad Soyad</th>
+							<th>Tc No</th>
+							<th>Cinsiyet</th>
+							<th>Doğum Tarihi</th>
+							<th>Doğum Yeri</th>
+							<th>Başvurulan Bölüm</th>
+							<th>Yks Puanı</th>
+							<th>Aobp Puanı</th>
+							<th>Mezun Lise</th>
+							<th>Mezun Lise Türü</th>
+							<th>Mezun Lise Bölüm</th>
+							<th>Lise Alan</th>
+							<th>Önceki Sene Yerleşme</th>
+							<th>Milli Sporcu</th>
+							<th>Öz Geçmiş Puanı</th>
+							<th>Telefon</th>
+							<th>Sıra No</th>
+							<th>Kayit Tarihi</th>
+							<th>Resim</th>
+							<th>Süre</th>
+							<th>Hata Puanı</th>
+							<th>Ham Puan</th>
+							<th>Puan</th>
+							<th>Zaman</th>
+							<th>Durum</th>
+							<th>Sınav Tarih</th>
+							<th>Sınav Saat</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="Ogrenci,iterationstatus :${malestudents}">
+							<td><a class="nav-link" th:href="@{/erkeksinav(tcno=${Ogrenci.getTcNo()})}">Seç</a></td>
+							<td th:text="${Ogrenci.getId()}">Id</td>
+							<td th:text="${Ogrenci.getAdSoyad()}">Id</td>
+							<td th:text="${Ogrenci.getTcNo()}">Id</td>
+							<td th:text="${Ogrenci.getCinsiyet()}">Id</td>
+							<td th:text="${Ogrenci.getDogumTarihi()}">Id</td>
+							<td th:text="${Ogrenci.getDogumYeri()}">Id</td>
+							<td th:text="${Ogrenci.getBasBolum()}">Id</td>
+							<td th:text="${Ogrenci.getYksPuani()}">Id</td>
+							<td th:text="${Ogrenci.getAobpPuani()}">Id</td>
+							<td th:text="${Ogrenci.getMezunLise()}">Id</td>
+							<td th:text="${Ogrenci.getMezunLiseTuru()}">Id</td>
+							<td th:text="${Ogrenci.getMezunLiseBolum()}">Id</td>
+							<td th:text="${Ogrenci.getLiseAlan()}">Id</td>
+							<td th:text="${Ogrenci.getOncekiSeneYerlesme()}">Id</td>
+							<td th:text="${Ogrenci.getMilliSporcu()}">Id</td>
+							<td th:text="${Ogrenci.getOzgecmisPuani()}">Id</td>
+							<td th:text="${Ogrenci.getTel()}">Id</td>
+							<td th:text="${Ogrenci.getSiraNo()}">Id</td>
+							<td th:text="${Ogrenci.getKayitTarihi()}">Id</td>
+							<td th:text="${Ogrenci.getResim().getYol()}">Id</td>
+							<td th:text="${Ogrenci.getSinav().getSure()}">Id</td>
+							<td th:text="${Ogrenci.getSinav().getHataPuani()}">Id</td>
+							<td th:text="${Ogrenci.getSinav().getHamPuani()}">Id</td>
+							<td th:text="${Ogrenci.getSinav().getPuan()}">Id</td>
+							<td th:text="${Ogrenci.getSinav().getZaman()}">Id</td>
+							<td th:text="${Ogrenci.getDurum().getDurumu()}">Id</td>
+							<td th:text="${Ogrenci.getRandevu().getTarih()}">Id</td>
+							<td th:text="${Ogrenci.getRandevu().getSaat()}">Id</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		</div>
+	</div>
+    <script>
+        function limitDecimalDigits(input) {
+            var value = input.value;
+            var parts = value.split(".");
+            
+            if (parts.length === 2 && parts[1].length > 3) {
+                input.value = parts[0] + "." + parts[1].substr(0, 3);
+            }
+        }
+    </script>
+    
+        <script th:inline="javascript">
+        
+        document.getElementById("parkurAlBtn").addEventListener("click", function() {
+            document.getElementById("confirmPopup").style.display = "flex";
+        });
+        
+        
+        document.getElementById("confirmYes").addEventListener("click", function() {
+	            document.getElementById('parkuralForm').submit();
+        });
+
+        document.getElementById("confirmNo").addEventListener("click", function() {
+            document.getElementById("confirmPopup").style.display = "none";
+        });
+    </script>
+    
+	
+	
+	
+</body>
+</html>

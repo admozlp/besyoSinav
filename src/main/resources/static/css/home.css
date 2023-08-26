@@ -1,0 +1,44 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto);
+body{
+	width:100%;
+}
+
+table{
+	max-width:100%;
+	align-content: center;
+	overflow-x:scroll;	
+}
+
+
+#graph {
+	padding:0px;
+	display: inline-block;
+	height: 250px;
+	margin: 0px;
+	width: 45%;
+}
+
+#graph2{
+	padding:0px;
+	display: inline-block;
+	height: 250px;
+	margin: 0px;
+	width: 45%;
+}
+
+h2{
+  text-align: center; 
+  color: #fff; 
+  font-size: 36px; 
+  font-weight: bold; 
+  padding: 13px; 
+  background-color: #6aa8ff; 
+  border-radius: 8px; 
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); 
+  text-transform: uppercase; 
+  letter-spacing: 2px;
+}
+
+h3{
+	text-align: center;
+}

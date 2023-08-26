@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Kayıtları Güncelle</title>
+	<div th:replace="fragments :: ust-menu"></div>	
+	<style type="text/css">
+		    h3 {
+		      color: #333; 
+		      font-size: 28px; 
+		      font-weight: normal; 
+		      font-family: "Arial", sans-serif; 
+		      margin: 0; 
+		      padding: 15px; 
+		      text-align: center; 
+		      background-color: #f9f9f9; 
+		      border: 1px solid #ccc; 
+		      border-radius: 10px;
+		      box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1); 
+		      transition: background-color 0.3s ease-in-out; 
+		      cursor: pointer; 
+		      margin-bottom:8px;
+		    }
+
+		    h3:hover {
+		      background-color: #ffefdb; 
+		    }
+    </style>
+        <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    
+	    <script>
+	        document.getElementById('selectedOption').addEventListener('change', function() {
+            document.getElementById('yilForm').submit();
+        });	        	      
+    </script>
+</head>
+<body>
+
+	<div class="container-fluid"  style="padding:20px 37px;">
+		  <div class="row">
+		     <form th:action="@{/kayitlariguncelle}" method="get" id="yilForm">
+		        <select name="selectedOption" th:onchange="'this.form.submit()'" id="selectedOption" style="margin-bottom: 10px; max-width: 25%;" class="form-select form-control">
+		          <option th:each="option : ${options}" th:text="${option}" th:selected="${option == selectedOption}"></option>
+		        </select>
+		      </form>
+		      
+		    <div class="col">
+					<form th:action="@{/kayitlariguncelle}" method="get">           
+						<label for="arama" class="form-label" style="margin-top:10px;">Tc no</label>
+							<input name="aday"   class="form-control"  style="border-color: #007bff;  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);"	type="text"  autofocus="autofocus"
+								 placeholder="Tc no" id="arama" maxlength="11">
+							<button type="submit" class="btn btn-primary" style="width:100%;  margin-top:10px; margin-bottom:10px;">Ara</button>
+							<div class="alert alert-warning" th:if="${param.mevcutdegil}">
+								<p>Aday mevcut değil</p>
+							</div>
+							<div class="alert alert-danger" th:if="${param.guncellemehatasi}">
+								<p>Güncelleme yapılırken hata oluştu. Tekrar Deneyin!</p>
+							</div>						
+					</form>
+					<div class="form-group"  style="background-color: #f5f3ed;  border-radius:5px; padding:5px; " th:if="${secilenOgrenci.adSoyad != null}">			    					
+			    				<form th:action="@{/sinavguncelle}"  th:object="${secilenOgrenci}" method="post">			    
+			    					<p>ID :<b th:text="*{id}"></b></p>
+					    			<input style="display:none;" th:field="*{tcNo}">
+					    			<p>TC :<b th:text="*{tcNo}" ></b></p>
+					    			<p>Ad Soyad :<b th:text="*{adSoyad}"></b></p>	
+ 			    					<p>Sınav Zamanı :<b th:text="*{sinav.zaman.toString()}"></b></p>					    									    						    					
+									<div class="form-group" style ="max-width:90%; margin:5px;">
+							          <label for="name">Tercih</label>
+							          <input type="text"  th:field="*{basBolum}"   class="form-control" id="name" placeholder="Tercih">
+							        </div>									        
+							        <div class="form-group" style ="max-width:90%; margin:5px;">
+							          <label for="name">Süre</label>
+							          <input type="text"  th:field="*{sinav.sure}" class="form-control" id="name" placeholder="Süre">
+							        </div>		
+							        <div class="form-group" style ="max-width:90%; margin:5px;">
+							          <label for="name">Hata Puanı</label>
+							          <input type="text" th:field="*{sinav.hataPuani}" class="form-control" id="name" placeholder="Hata puanı">
+							        </div>		
+					    			 <div class="form-group" style ="max-width:90%; margin:5px;">
+							          <label for="name">Ham Puanı</label>
+							          <input type="text" th:field="*{sinav.hamPuani}"  class="form-control" id="name" placeholder="Ham puanı">
+							        </div>		
+					    			<div class="form-group" style ="max-width:90%; margin:5px;">
+							          <label for="name">PUAN</label>
+							          <input type="text"  th:field="*{sinav.puan}" class="form-control" id="name" placeholder="PUAN">
+							        </div>		
+							        <div class="form-group" style ="max-width:90%; margin:5px;">
+							          <label for="name">Özgeçmiş Puanı</label>
+							          <input type="text"th:field="*{ozgecmisPuani}"   class="form-control" id="name" placeholder="Özgeçmiş puanı">
+							        </div>		
+							        
+							        <div class="form-group" style ="max-width:90%; margin:5px;">
+							          <label for="name">Durum</label>							   
+										<select name="secilenDurum"   id="selectedOption" style="margin-bottom: 10px;" class="form-select form-control" >
+										<option th:each="durum: ${durumlar}" th:text="${durum}"
+											th:selected="${durum == secilenDurum}"></option>
+									</select>
+									</div>		
+									
+									<button type="submit" class="btn btn-primary" style="width:100%;  margin-top:10px; margin-bottom:10px; ">Güncelle</button>							
+							</form>			    			    			    			  			    						    			    			    						    			    			    						    			    			   
+			    	</div>
+										
+			    </div>
+			    <div class="col">
+					<h3>ERKEK ADAYLAR</h3>					
+					<table class="table table-hover table-primary" >
+						  <thead>
+						    <tr>
+						      <th scope="col">Sınava Girenler</th>
+						      <th scope="col">Sınava Girmeyenler</th>
+						      <th scope="col">Diskalifiye Olanlar</th>
+						    </tr>
+						  </thead>
+						  <tbody>
+						    <tr>
+						      <td th:text="${istatistics.get(0)}"></td>
+						      <td th:text="${istatistics.get(1)}">Amet</td>
+						      <td th:text="${istatistics.get(2)}">Consectetur</td>
+						    </tr>
+						  </tbody>
+					</table>
+						<div class="arert alert-danger">Burada yapılan değişiklikler sadece ilgili alanı değiştirir. Ör: Süre değişimi parkur puanını etkilemeyecektir,
+					 		bunu yapmak için sınav ekranından tekrar hesapla ve kaydet işlemlerini yapmalısınız.					 	
+					 </div>
+			    </div>
+			    <div class="col">
+			      	<h3>BAYAN ADAYLAR</h3>
+					<table class="table table-hover table-warning">
+						  <thead>
+						    <tr>
+						      <th scope="col">Sınava Girenler</th>
+						      <th scope="col">Sınava Girmeyenler</th>
+						      <th scope="col">Diskalifiye Olanlar</th>
+						    </tr>
+						  </thead>
+						  <tbody>
+						    <tr>
+						      <td th:text="${istatistics.get(3)}"></td>
+						      <td th:text="${istatistics.get(4)}"></td>
+						      <td th:text="${istatistics.get(5)}"></td>
+						    </tr>
+						  </tbody>
+					</table>
+			    </div>
+			    <div class="col">
+			      	<h3>TERCİHLER</h3>
+					<table class="table table-hover table-secondary table-bordered">
+						  <thead>
+						    <tr>
+						      <th scope="col">Bölümler</th>
+						      <th scope="col">Erkekler</th>
+						      <th scope="col">Bayanlar</th>
+						    </tr>
+						  </thead>
+						  <tbody>
+						    <tr>
+						      <td>Beden Eğitimi ve Spor Öğretmenliği</td>
+						      <td th:text="${istatistics.get(6)}"></td>
+						      <td th:text="${istatistics.get(9)}"></td>
+						    </tr>
+						    <tr>
+						      <td>Spor Yöneticiliği</td>
+						      <td th:text="${istatistics.get(7)}"></td>
+						      <td th:text="${istatistics.get(10)}"></td>
+						    </tr>
+						     <tr>
+						      <td>Antrenörlük Eğtimi</td>
+						      <td th:text="${istatistics.get(8)}"></td>
+						      <td th:text="${istatistics.get(11)}"></td>
+						    </tr>
+						    <tr>
+						      <td>TOPLAM</td>
+						      <td th:text="${istatistics.get(12)}"></td>
+						      <td th:text="${istatistics.get(13)}"></td>
+						    </tr>
+						  </tbody>
+					</table>
+			    </div>
+		
+		  </div>
+	</div>
+
+</body>
+</html>

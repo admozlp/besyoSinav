@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Yüklenen Veriyi Göster</title>
+	<div th:replace="fragments :: ust-menu"></div>
+	<link rel="stylesheet" href="/css/table.css">
+	    <script>
+	        document.getElementById('selectedOption').addEventListener('change', function() {
+            document.getElementById('yilForm').submit();
+        });
+    </script>
+
+</head>
+<body>
+	<h2 style="text-align:center;">Tüm Kayıtlar</h2>	
+	<div class="container table-wrapper">
+		<div>
+					<form  th:action="@{/yuklenenverigoster}" method="get" id="yilForm">
+						<select name="selectedOption"  th:onchange="'this.form.submit()'"  id="selectedOption" style="margin-bottom: 10px;" class="form-select form-control" >
+							<option th:each="option : ${options}" th:text="${option}"
+								th:selected="${option == selectedOption}"></option>
+						</select>
+					</form>
+					
+				<form th:action="@{/yuklenenverigoster}" method="get">           
+				<div class="alert alert-warning" th:if="${param.mevcutdegil}">
+					<p>Aday mevcut değil</p>
+				</div>
+				<label for="arama" class="form-label" style="margin-top:10px;">Ad soyad, Id, Sıra No, Telefon No</label>
+					<input name="aday"   class="form-control"  style="border-color: green; box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25);"	type="text"  autofocus="autofocus"
+						 placeholder="Tc no, Ad soyad, telefon no, Id, sıra no" id="arama">
+					<button type="submit" class="btn btn-success" style="width:100%;  margin-top:10px; margin-bottom:10px;">Ara / Tüm Kayıtlar</button>
+				</form>
+		</div>
+		<table class="fl-table" >
+			<thead>	
+				<tr>
+					<th>Id</th>
+					<th>Ad Soyad</th>
+					<th>Tc No</th>
+					<th>Yerleştirme Puanı</th>
+					<th>Cinsiyet</th>
+					<th>Doğum Tarihi</th>
+					<th>Doğum Yeri</th>
+					<th>Başvurulan Bölüm</th>
+					<th>Yks Puanı</th>
+					<th>Aobp Puanı</th>
+					<th>Mezun Lise</th>
+					<th>Mezun Lise Türü</th>
+					<th>Mezun Lise Bölüm</th>
+					<th>Lise Alan</th>
+					<th>Önceki Sene Yerleşme</th>
+					<th>Milli Sporcu</th>
+					<th>Öz Geçmiş Puanı</th>
+					<th>Telefon</th>
+					<th>Sıra No</th>
+					<th>Kayit Tarihi</th>					
+					<th>Resim</th>
+					<th>Süre</th>
+					<th>Hata Puanı</th>
+					<th>Ham Puan</th>
+					<th>Puan</th>
+					<th>Parkur Zamanı</th>
+					<th>Durum</th>
+					<th>Sınav Tarih</th>
+					<th>Sınav Saat</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="Ogrenci,iterationstatus :${allStudents}">
+					<td th:text="${Ogrenci.getId()}">Id</td>
+					<td th:text="${Ogrenci.getAdSoyad()}">Id</td>
+					<td th:text="${Ogrenci.getTcNo()}">Id</td>	
+					<td th:text="${Ogrenci.getYp()}">Id</td>										
+					<td th:text="${Ogrenci.getCinsiyet()}">Id</td>
+					<td th:text="${Ogrenci.getDogumTarihi()}">Id</td>
+					<td th:text="${Ogrenci.getDogumYeri()}">Id</td>
+					<td th:text="${Ogrenci.getBasBolum()}">Id</td>
+					<td th:text="${Ogrenci.getYksPuani()}">Id</td>
+					<td th:text="${Ogrenci.getAobpPuani()}">Id</td>
+					<td th:text="${Ogrenci.getMezunLise()}">Id</td>
+					<td th:text="${Ogrenci.getMezunLiseTuru()}">Id</td>
+					<td th:text="${Ogrenci.getMezunLiseBolum()}">Id</td>
+					<td th:text="${Ogrenci.getLiseAlan()}">Id</td>
+					<td th:text="${Ogrenci.getOncekiSeneYerlesme()}">Id</td>
+					<td th:text="${Ogrenci.getMilliSporcu()}">Id</td>
+					<td th:text="${Ogrenci.getOzgecmisPuani()}">Id</td>
+					<td th:text="${Ogrenci.getTel()}">Id</td>
+					<td th:text="${Ogrenci.getSiraNo()}">Id</td>
+					<td th:text="${Ogrenci.getKayitTarihi()}">Id</td>
+					<td th:text="${Ogrenci.getResim().getYol()}">Id</td>
+					<td th:text="${Ogrenci.getSinav().getSure()}">Id</td>
+					<td th:text="${Ogrenci.getSinav().getHataPuani()}">Id</td>
+					<td th:text="${Ogrenci.getSinav().getHamPuani()}">Id</td>
+					<td th:text="${Ogrenci.getSinav().getPuan()}">Id</td>
+					<td th:text="${Ogrenci.getSinav().getZaman()}">Id</td>
+					<td th:text="${Ogrenci.getDurum().getDurumu()}">Id</td>
+					<td th:text="${Ogrenci.getRandevu().getTarih()}">Id</td>
+					<td th:text="${Ogrenci.getRandevu().getSaat()}">Id</td>
+				</tr>
+			<tbody>
+		</table>
+		
+        <div th:if="${totalPages > 1}" class="pagination justify-content-center">
+            <ul class="pagination">
+                <li th:if="${currentPage > 0}" class="page-item">
+                    <a class="page-link" th:href="@{/yuklenenverigoster(page=0)}">İlk</a>
+                </li>
+                <li th:if="${currentPage > 0}" class="page-item">
+                    <a class="page-link" th:href="@{/yuklenenverigoster(page=${currentPage - 1})}">Önceki</a>
+                </li>
+                <li th:if="${currentPage > 4}" class="page-item">
+                    <a class="page-link" th:href="@{/yuklenenverigoster(page=${currentPage - 5})}">...</a>
+                </li>
+                <li th:if="${currentPage < totalPages -1}" th:each="i : ${#numbers.sequence(currentPage, currentPage + 4)}"
+                    th:classappend="${currentPage == i} ? 'page-item active' : 'page-item'">
+                    <a class="page-link" th:href="@{/yuklenenverigoster(page=${i})}" th:text="${i + 1}"></a>
+                </li>
+                <li th:if="${currentPage < totalPages - 1}" class="page-item">
+                    <a class="page-link" th:href="@{/yuklenenverigoster(page=${currentPage + 5})}">...</a>
+                </li>
+                <li th:if="${currentPage < totalPages - 6}" class="page-item">
+                    <a class="page-link" th:href="@{/yuklenenverigoster(page=${currentPage + 1})}">Sonraki</a>
+                </li>
+                <li th:if="${currentPage < totalPages - 1}" class="page-item">
+                    <a class="page-link" th:href="@{/yuklenenverigoster(page=${totalPages - 1})}">Son</a>
+                </li>
+            </ul>
+        </div>
+		    
+		    
+	</div>		
+
+	
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+	  <meta charset="UTF-8">
+	  <title>Giriş Yap</title>
+	  <link rel="stylesheet" href="/css/login_registration.css">
+</head>
+<body>
+	<div class="container">
+	  <div class="overlay" id="overlay">
+	    <div class="sign-in" id="sign-in">
+	      <a th:href="@{/aktiferkek}" style="text-decoration: none"> 
+	          <button class="switch-button panelelement" >Aktif Erkek</button>
+	      </a>
+	      <br>
+	      <a th:href="@{/erkeklistesi}" style="text-decoration: none"> 
+	          <button class="switch-button panelelement" onclick= >Erkek Listesi</button>
+	      </a>     
+	      <br>
+	      <a th:href="@{/aktifbayan}" style="text-decoration: none"> 
+	          <button class="switch-button panelelement" onclick= >Aktif Bayan</button>
+	      </a>
+	      <br>
+	      <a th:href="@{/bayanlistesi}" style="text-decoration: none"> 
+	          <button class="switch-button panelelement" onclick= >Bayan Listesi</button>
+	      </a>
+	    </div>
+	  </div>
+	  <div class="form">
+	    <div class="sign-up" id="sign-up-info">
+   			<h1 style="align-content: center;">Giriş Yap</h1>
+			<p class="small"></p>
+			<!-- error message -->
+			<div th:if="${param.error}">
+				<div style="color: red">Kullanıcı veya şifre yanlış!</div>
+			</div>
+			<!-- logout message -->
+			<div th:if="${param.logout}">
+				<div style="color: green;">Çıkış Yapıldı.</div>
+			</div>
+			<form th:action="@{/login}" id="sign-in-form" method="post">
+				<input type="text" placeholder="Kullanıcı Adı" name="username"
+					autofocus="autofocus" /> <input type="password"
+					placeholder="Parola" name="password" autofocus="autofocus" />
+				<p class="text"></p>
+				<button class="control-button in" type="submit">Giriş</button>
+				<br> <span><a href="/" th:href="@{/registration}"
+					style="color: green; text-decoration: none">Admin Kayıt</a></span>
+			</form>
+	    </div>
+	  </div>
+	</div>
+</body>
+</html>

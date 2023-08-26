@@ -1,0 +1,44 @@
+body {
+	font-family: Arial, sans-serif;
+}
+
+.container {
+	padding: 10px 20px; 
+	display: flex;
+	justify-content: space-between;
+
+}
+
+label{
+  position: inherit;
+  top: 15px;
+  left: 10px;
+  color: #666; /* Label rengi */
+  font-size: 16px;
+  pointer-events: none; /* Labelın üzerinde gezinilemez yapar */
+  transition: 0.2s ease-out;
+}
+
+
+button:hover {
+	background-color:#005E99;
+}
+
+input {
+	margin-bottom: 5px;
+	padding: 8px;
+	border: 1px solid #cccccc;
+	border-radius: 5px;
+}
+
+button {
+	width: 100%;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	background-color: #3498db;
+	color: #fff;
+	border: none;
+	padding: 8px 16px;
+	border-radius: 4px;
+	cursor: pointer;
+}

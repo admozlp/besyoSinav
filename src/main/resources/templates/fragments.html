@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta charset="UTF-8">
+		<title>Insert title here</title>
+
+		
+			<div class="m-4" th:fragment="ust-menu">
+						<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+						<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+			
+			    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+			        <div class="container-fluid">
+			            <a href="/"  class="navbar-brand">Ana Sayfa</a>
+			            <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+			                <span class="navbar-toggler-icon"></span>
+			            </button>
+			            <div class="collapse navbar-collapse" id="navbarCollapse">
+			                <div class="navbar-nav">
+			                	<div class="nav-item dropdown">
+			                        <a class="nav-link dropdown-toggle active" data-bs-toggle="dropdown">Verileri Sisteme Aktar</a>
+			                        <div class="dropdown-menu">
+			                            <a th:href="@{/veriyuklemeformati}"  class="dropdown-item">Veri Yükleme Formatı</a>
+			                            <a th:href="@{/excelyukle}" class="dropdown-item">Veri Yükle</a>
+			                            <a th:href="@{/yuklenenverigoster}" class="dropdown-item">Yüklenen Veriyi Görüntüle</a>
+			                        </div>
+			                    </div>
+			                    <a th:href="@{/ogrencisec}" class="nav-item nav-link active">Öğrenci Seç</a>
+			                	<div class="nav-item dropdown">
+			                        <a class="nav-link dropdown-toggle active" data-bs-toggle="dropdown">Sınav Sayfası</a>
+			                        <div class="dropdown-menu">
+			                            <a th:href="@{/bayansinav}" class="dropdown-item">Bayan Sınav Sayfası</a>
+			                            <a th:href="@{/erkeksinav}" class="dropdown-item">Erkek Sınav Sayfası</a>			                           
+			                        </div>
+			                    </div>
+			                    
+			                    <a th:href="@{/sonuclar}" class="nav-item nav-link active">Sonuçlar</a>
+
+			                	<div class="nav-item dropdown">
+			                        <a class="nav-link dropdown-toggle active" data-bs-toggle="dropdown">Güncelle | Yedekle</a>
+			                        <div class="dropdown-menu">
+			                            <a th:href="@{/kayitlariguncelle}" class="dropdown-item">Kayıtları Güncelle</a>
+			                            <a th:href="@{/tumkayitlariyedekle}" class="dropdown-item">Tüm Kayıtları Yedekle</a>				                            		                     
+			                            <a th:href="@{/alanlariyedekle}" class="dropdown-item">Sadece Alanları Yedekle</a>				                                 
+			                        </div>
+			                    </div>
+			                    <a th:href="@{/alanlariguncelle}" class="nav-item nav-link active">Alanları Güncelle</a>
+
+			                    <a href="#" class="nav-item nav-link disabled" tabindex="-1"></a>
+			                </div>
+			                <div class="navbar-nav ms-auto"  sec:authorize="{isAuthenticated()}">
+			                    <a  th:href="@{/logout}"  class="nav-item nav-link active">Çıkış</a>
+			                </div>
+			            </div>
+			        </div>
+			    </nav>
+			</div>
+	</head>
+<body>
+</body>
+</html>

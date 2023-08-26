@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<link rel="stylesheet" href="/css/uploadexcel.css">
+<meta charset="UTF-8">
+<title>Veri Yükle</title>
+
+<div st th:replace="fragments :: ust-menu"></div>
+
+</head>
+
+<body>
+	<div id="veriyukle" style="text-align: center;" class="row">
+		<h2 class="header">Veri Yükle</h2>
+		<div class="container">
+			<div style="padding:10px; margin:10px 15%;" class="alert alert-warning">
+								<h4 style="color: red;">Yalnızca excel dosyası
+				yükleyebilirsiniz!</h4>
+			<h5>Yüklenen dosyada bulunan kolonların ve veri tiplerinin
+				bilgilendirme sayfasında gösterildiği gibi olduğundan emin olun.</h5>
+				<h5>
+					Geçerli dönem için bir adet excel dosyası yükledikten sonra, ekleme yapmanız gereken durumda yeni bir excel dosyasına sadece eklenecek başvuruları koyunuz. Sistem birleştirecektir. 
+				</h5>
+				
+			
+			</div>
+
+			<form th:action="@{/excelyukle}" th:object="${file}" method="POST"
+				enctype="multipart/form-data">
+
+				<div style = "padding:14px;	border-radius: 10px; box-shadow: 0 0 5px rgba(0, 0, 0, 0.3); margin:0px 20%;">
+											<input id="fileSelect" type="file" class="dosya-sec-button"
+							name="file"
+							accept=".csv,.xls,.xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" />
+						<br> <br> 
+						<a class="yuklebutton"><button type="submit" onclick="move()" id="confirm" >Yükle</button></a>
+				</div>
+				<br>
+				<br>
+				
+				<div class="progress-div"    id="prog" style="display:none; align-items:center;">
+					<div class="custom-col">			
+					    <div class="progress">
+					      <div aria-valuemax="100" class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar" id="myBar"></div>
+					    </div>
+					</div>
+				</div>
+				
+				<br>
+				<div th:if="${param.dosyasecilmedi}">
+					<div class="alert alert-danger">Dosya Seçiniz</div>
+					<br>
+				</div>
+
+				<h2 th:text="${message}"></h2>
+				<div th:if="${param.error}">
+					<div class="alert alert-danger">Dosya Yüklenemedi! Dosya Formatına
+						Dikkat Ediniz</div>
+				</div>
+			</form>
+
+			<div th:if="${param.kayitedildi}">
+				<div class="alert alert-success">Dosya Veritabanına Kaydedildi</div>
+			</div>
+			<div th:if="${param.kayitbasarisiz}">
+				<div class="alert alert-danger">Veri Tabanına Yükleme Başarısız Tekrar
+					Dene</div>
+			</div>
+			
+			<div th:if="${param.success}">
+				<div th:if="not ${param.dosyasecilmedi}">
+					<div class="alert alert-success">Dosya Yüklendi! Veri Tabanına
+						Kaydedebilirsiniz</div>
+					<br> <a class="yuklebutton" th:href="@{/veritabaninakaydet}" onclick="move()" id="confirm"  ><button>Veri
+							Tabanına Kaydet</button></a>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+	<script type="text/javascript" src="/js/progressbar.js"></script>
+	<script type="text/javascript">
+		const showButton = document.getElementById("confirm");
+		const hiddenDiv = document.getElementById("prog");
+	
+		showButton.addEventListener("click", function() {
+		    hiddenDiv.style.display = "block"; // Butona tıklandığında div'i görünür yap
+		});
+	</script>
+</html>
+

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+			<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+			<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+	
+			<title>Bayan Listesi</title>
+			<link rel="stylesheet" href="/css/table.css">		
+			<style>
+			        @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap');		        		      
+			        h2 {
+			            font-family: 'Open Sans', sans-serif; 
+			            font-weight: 700;
+			            font-size: 24px; 
+			            color: #007BFF; 
+			            margin-bottom: 10px; 
+			        }
+			        
+			        td{
+			            max-width: 100px; 
+					    white-space: nowrap; 
+					    overflow: hidden; 
+					    text-overflow: ellipsis;
+					    font-weight: 16px;
+			        }
+			        table{
+			        	overflow-x : scroll;
+			        				        	
+			        }
+	    </style>
+</head>
+<body>
+				<form th:action="@{/bayanlistesi}"  id="bayanlistguncelle" method="get"></form>
+				<div class="container-fluid" style="margin-top:10px;" >
+					<div>
+						<form  th:action="@{/bayanlistesi}" method="get" id="yilForm">
+						<select name="selectedOption"  th:onchange="'this.form.submit()'"  id="selectedOption" style=" max-width:25%; margin-bottom: 10px;" class="form-select form-control" >
+							<option th:each="option : ${options}" th:text="${option}"
+								th:selected="${option == selectedOption}"></option>
+						</select>
+					</form>
+					</div>
+				
+					<table class="fl-table"  style="margin:10px, 100px;">
+						<thead>	
+							<tr>
+								<th>Sıralama</th>
+								<th>Tc No</th>
+								<th>Ad Soyad</th>
+								<th>Başvurulan Bölüm</th>
+								<th>Süre</th>
+								<th>Hata Puanı</th>
+								<th>Ham Puan</th>
+								<th>Puan</th>					
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="Ogrenci,iterationstatus :${ogrenciler}">
+								<td th:text="${iterationstatus.index} + 1">Id</td>
+								<td>
+								    <span th:text="${Ogrenci.getTcNo() != null ? #strings.substring(Ogrenci.getTcNo(), 0, 5) + '******' : ''}"></span>
+								</td>						
+								<td th:text="${Ogrenci.getAdSoyad()}">Id</td>
+								<td th:text="${Ogrenci.getBasBolum()}">Id</td>
+								<td th:text="${Ogrenci.getSinav().getSure()}">Id</td>
+								<td th:text="${Ogrenci.getSinav().getHataPuani()}">Id</td>
+								<td th:text="${Ogrenci.getSinav().getHamPuani()}">Id</td>			
+								<td  style="font-size: 18px;"  th:text="${Ogrenci.getSinav().getPuan()}">Id</td>																																																																					
+							</tr>
+						<tbody>
+					</table>		
+						
+					        <div th:if="${totalPages > 1}" class="pagination justify-content-center">
+					            <ul class="pagination">
+					                <li th:if="${currentPage > 0}" class="page-item">
+					                    <a class="page-link" th:href="@{/bayanlistesi(page=0)}">İlk</a>
+					                </li>
+					                <li th:if="${currentPage > 0}" class="page-item">
+					                    <a class="page-link" th:href="@{/bayanlistesi(page=${currentPage - 1})}">Önceki</a>
+					                </li>
+					                <li th:if="${currentPage > 4}" class="page-item">
+					                    <a class="page-link" th:href="@{/bayanlistesi(page=${currentPage - 5})}">...</a>
+					                </li>
+					                <li th:if="${currentPage < totalPages -1}" th:each="i : ${#numbers.sequence(currentPage, currentPage + 4)}"
+					                    th:classappend="${currentPage == i} ? 'page-item active' : 'page-item'">
+					                    <a class="page-link" th:href="@{/bayanlistesi(page=${i})}" th:text="${i + 1}"></a>
+					                </li>
+					                <li th:if="${currentPage < totalPages - 1}" class="page-item">
+					                    <a class="page-link" th:href="@{/bayanlistesi(page=${currentPage + 5})}">...</a>
+					                </li>
+					                <li th:if="${currentPage < totalPages - 6}" class="page-item">
+					                    <a class="page-link" th:href="@{/bayanlistesi(page=${currentPage + 1})}">Sonraki</a>
+					                </li>
+					                <li th:if="${currentPage < totalPages - 1}" class="page-item">
+					                    <a class="page-link" th:href="@{/bayanlistesi(page=${totalPages - 1})}">Son</a>
+					                </li>
+					            </ul>
+					        </div>
+				</div>		
+	      <script th:inline="javascript">
+        function fetchAndDisplayData() {
+                document.getElementById('bayanlistguncelle').submit();
+        }
+        setInterval(fetchAndDisplayData, 10000);
+    </script>
+	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

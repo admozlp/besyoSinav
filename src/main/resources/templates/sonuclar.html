@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="UTF-8">
+		<title>Sonuçlar</title>
+		<div th:replace="fragments :: ust-menu"></div>
+			<link rel="stylesheet" href="/css/table.css">		
+			<style>
+			        @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap');		        		      
+			        h2 {
+			            font-family: 'Open Sans', sans-serif; 
+			            font-weight: 700;
+			            font-size: 24px; 
+			            color: #007BFF; 
+			            margin-bottom: 10px; 
+			        }
+			        
+			        td{
+			            max-width: 100px; 
+					    white-space: nowrap; 
+					    overflow: hidden; 
+					    text-overflow: ellipsis;
+			        }
+			        table{
+			        	overflow-x : scroll
+			        }
+					.timestamp-checkbox {
+			            display: flex;
+			            align-items: center;
+			            margin-top: 10px;
+			        }
+			
+			        .timestamp-label {
+			            margin-left: 10px;
+			        }
+	    </style>
+			<script>
+	        document.getElementById('milli').addEventListener('change', function() {
+            document.getElementById('form').submit();
+        });
+	        
+    </script>
+	</head>
+	<body>
+			<div class="container-fluid"  style="padding:30px; padding-right:30px; padding-left:30px;">
+			    <div class="row">
+			        <div class="col">
+			            <form th:action="@{/sonuclar}" method="get" id="form">
+			                <div class="inline-block">
+			                    <select name="milli" th:onchange="'this.form.submit()'" id="milli" style="width:100%; margin-bottom: 5px; margin-top:10px;" class="form-select form-control">
+			                        <option th:each="option : ${millilikler}" th:text="${option}" th:selected="${option == secilenmillilik}"></option>
+			                    </select>
+			                </div>		
+			        </div>
+			        <div class="col">
+			                <div class="inline-block">
+			                    <select name="cinsiyet" th:onchange="'this.form.submit()'" id="cinsiyet" style="width:100%; margin-bottom: 5px; margin-top:10px;" class="form-select form-control">
+			                        <option th:each="option : ${cinsiyetler}" th:text="${option}" th:selected="${option == secilencinsiyet}"></option>
+			                    </select>
+			                </div>			            
+			        </div>
+			        <div class="col">
+			                <div class="inline-block">
+			                    <select name="bolum" th:onchange="'this.form.submit()'" id="bolum" style="width:100%; margin-bottom: 5px; margin-top:10px;" class="form-select form-control">
+			                        <option th:each="option : ${bolumler}" th:text="${option}" th:selected="${option == secilenbolum}"></option>
+			                    </select>
+			                </div>
+			            </form>
+			        </div>
+			    </div>
+			    <div class= "row">
+			    	<div class="col">
+			    		<div class="row">			   
+							<div class= "col">
+								<table class="table table-hover table-primary">
+						    			<h4>Adaylar</h4>
+									  <thead>
+									    <tr>
+									      <th scope="col">Sınava Girenler</th>
+									      <th scope="col">Sınava Girmeyenler</th>
+									      <th scope="col">Diskalifiye Olanlar</th>
+									       <th scope="col">Toplam Kayıt Sayısı</th>
+									    </tr>
+									  </thead>
+									  <tbody>
+									    <tr>
+									      <td th:text="${statistics.get(0)}"></td>
+									      <td th:text="${statistics.get(1)}"></td>
+									      <td th:text="${statistics.get(2)}"></td>
+									      <td th:text="${statistics.get(3)}"></td>							      
+									    </tr>
+									  </tbody>
+								</table>
+							</div>						
+						</div>
+			    	</div>
+			    </div>
+   			    <h2   th:if="${secilenbolum == 'Beden Eğitimi ve Spor Eğitimi' && secilenmillilik == 'Milli Değil' && secilencinsiyet == 'Erkek'}"  style ="text-align:center; margin:10px;">Beden Eğitimi ve Spor Eğitimine Başvuran Milli Olmayan Erkek Adaylar</h2>
+   				<h2   th:if="${secilenbolum == 'Beden Eğitimi ve Spor Eğitimi' && secilenmillilik == 'Milli' && secilencinsiyet == 'Erkek'}"  style ="text-align:center; margin:10px;">Beden Eğitimi ve Spor Eğitimine Başvuran Milli Erkek Adaylar</h2>
+   				<h2   th:if="${secilenbolum == 'Beden Eğitimi ve Spor Eğitimi' && secilenmillilik == 'Milli Değil' && secilencinsiyet == 'Bayan'}"  style ="text-align:center; margin:10px;">Beden Eğitimi ve Spor Eğitimine Başvuran Milli Olmayan Bayan Adaylar</h2>
+   				<h2   th:if="${secilenbolum == 'Beden Eğitimi ve Spor Eğitimi' && secilenmillilik == 'Milli' && secilencinsiyet == 'Bayan'}"  style ="text-align:center; margin:10px;">Beden Eğitimi ve Spor Eğitimine Başvuran Milli Bayan Adaylar</h2>
+   			
+   				<h2   th:if="${secilenbolum == 'Beden Eğitimi ve Spor Eğitimi' && secilenmillilik == 'Milli Değil' && secilencinsiyet == 'Hepsi'}"  style ="text-align:center; margin:10px;">Beden Eğitimi ve Spor Eğitimine Başvuran Milli Olmayan Adaylar</h2>
+   				<h2   th:if="${secilenbolum == 'Beden Eğitimi ve Spor Eğitimi' && secilenmillilik == 'Milli' && secilencinsiyet == 'Hepsi'}"  style ="text-align:center; margin:10px;">Beden Eğitimi ve Spor Eğitimine Başvuran Milli  Adaylar</h2>
+   				
+   				<h2   th:if="${secilenbolum == 'Antrenörlük Eğitimi' && secilenmillilik == 'Milli Değil' && secilencinsiyet == 'Erkek'}"  style ="text-align:center; margin:10px;">Antrenörlük Eğitimine Başvuran Milli Olmayan Erkek Adaylar</h2>
+   				<h2   th:if="${secilenbolum == 'Antrenörlük Eğitimi' && secilenmillilik == 'Milli' && secilencinsiyet == 'Erkek'}"  style ="text-align:center; margin:10px;">Antrenörlük Eğitimine Başvuran Milli Erkek Adaylar</h2>
+   				<h2   th:if="${secilenbolum == 'Antrenörlük Eğitimi' && secilenmillilik == 'Milli Değil' && secilencinsiyet == 'Bayan'}"  style ="text-align:center; margin:10px;">Antrenörlük Eğitimine Başvuran Milli Olmayan Bayan Adaylar</h2>
+   				<h2   th:if="${secilenbolum == 'Antrenörlük Eğitimi' && secilenmillilik == 'Milli' && secilencinsiyet == 'Bayan'}"  style ="text-align:center; margin:10px;">Antrenörlük Eğitimine Başvuran Milli Bayan Adaylar</h2>
+  
+  				<h2   th:if="${secilenbolum == 'Antrenörlük Eğitimi' && secilenmillilik == 'Milli Değil' && secilencinsiyet == 'Hepsi'}"  style ="text-align:center; margin:10px;">Antrenörlük Eğitimine Başvuran Milli Olmayan Adaylar</h2>
+   				<h2   th:if="${secilenbolum == 'Antrenörlük Eğitimi' && secilenmillilik == 'Milli' && secilencinsiyet == 'Hepsi'}"  style ="text-align:center; margin:10px;">Antrenörlük Eğitimine Başvuran Milli Adaylar</h2>
+  
+  			    <h2   th:if="${secilenbolum == 'Spor Yöneticiliği' && secilenmillilik == 'Milli Değil' && secilencinsiyet == 'Erkek'}"  style ="text-align:center; margin:10px;">Spor Yöneticiliğine Başvuran Milli Olmayan Erkek Adaylar</h2>
+   				<h2   th:if="${secilenbolum == 'Spor Yöneticiliği' && secilenmillilik == 'Milli' && secilencinsiyet == 'Erkek'}"  style ="text-align:center; margin:10px;">Spor Yöneticiliğine Başvuran Milli Erkek Adaylar</h2>
+   				<h2   th:if="${secilenbolum == 'Spor Yöneticiliği' && secilenmillilik == 'Milli Değil' && secilencinsiyet == 'Bayan'}"  style ="text-align:center; margin:10px;">Spor Yöneticiliğine Başvuran Milli Olmayan Bayan Adaylar</h2>
+   				<h2   th:if="${secilenbolum == 'Spor Yöneticiliği' && secilenmillilik == 'Milli' && secilencinsiyet == 'Bayan'}"  style ="text-align:center; margin:10px;">Spor Yöneticiliğine Başvuran Milli BayanAdaylar</h2>
+   
+   	    		<h2   th:if="${secilenbolum == 'Spor Yöneticiliği' && secilenmillilik == 'Milli Değil' && secilencinsiyet == 'Hepsi'}"  style ="text-align:center; margin:10px;">Spor Yöneticiliğine Başvuran Milli Olmayan Adaylar</h2>
+   				<h2   th:if="${secilenbolum == 'Spor Yöneticiliği' && secilenmillilik == 'Milli' && secilencinsiyet == 'Hepsi'}"  style ="text-align:center; margin:10px;">Spor Yöneticiliğine Başvuran Milli Adaylar</h2>
+			    
+			    <div class="row" style="overflow-x:scroll;">			   
+					<form th:action="@{/excelsonuclar}" method="get">
+							<div style = "margin-left:10px;" class="timestamp-checkbox">
+				                <input name="zamandamgasi" type="checkbox" id="timestampCheckbox">
+				                <label for="timestampCheckbox" class="timestamp-label">Zaman Damgası Ekle</label>
+				            </div>
+							<button type="submit" class="btn btn-success" style="max-width:20%; margin :10px;">Excel'e Yaz</button>						
+					</form>
+					<p style="margin-left:10px;"> Aday Sayısı: <b th:text="${statistics.get(4)}"></b></p>
+			    	<table class="fl-table" >
+						<thead>	
+							<tr>
+								<th>Tc No</th>
+								<th>Ad Soyad</th>
+								<th>Milli Sporcu</th>
+								<th>Başvurulan Bölüm</th>
+								<th>Lise Alan</th>
+								<th>TYT Puanı</th>
+								<th>Aobp Puanı</th>
+								<th>ÖYSP Puanı</th>
+								<th>Önceki Sene Yerleşme Durumu</th>
+								<th>ÖYSP  %</th>
+								<th>TYT Puanı %</th>
+								<th>AOBP %</th>
+								<th>Yerleştirme Puanı</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="Ogrenci,iterationstatus :${ogrenciler}">
+								<td th:text="${Ogrenci.getTcNo()}">Id</td>									
+								<td th:text="${Ogrenci.getAdSoyad()}">Id</td>
+								<td th:text="${Ogrenci.getMilliSporcu()}">Id</td>
+								<td th:text="${Ogrenci.getBasBolum()}">Id</td>			
+								<td th:text="${Ogrenci.getLiseAlan()}">Id</td>		
+								<td th:text="${Ogrenci.getYksPuani()}">Id</td>
+								<td th:text="${Ogrenci.getAobpPuani()}">Id</td>
+								<td th:text="${Ogrenci.getSinav().getPuan()}">Id</td>													
+								<td th:text="${Ogrenci.getOncekiSeneYerlesme()}">Id</td>
+							
+								<td th:text="${Ogrenci.getSinav().getPuan()} * ${alanEtki.getOysp()} * ${alanEtki.getOyspTamKatSayi()}" >Id</td>													
+								<td th:text="${Ogrenci.getYksPuani()} * ${alanEtki.getTyt()}" >Id</td>
+								<td th:if="${Ogrenci.getOncekiSeneYerlesme() == 0 &&  Ogrenci.getLiseAlan() == 1}" th:text="${Ogrenci.getAobpPuani()} *  ${alanEtki.getAobp()} + ${Ogrenci.getAobpPuani()}  * ${alanEtki.getAobpEkstraKatSayi()}">Id</td>
+								<td th:if="${Ogrenci.getOncekiSeneYerlesme() == 0 &&  Ogrenci.getLiseAlan() == 0}" th:text="${Ogrenci.getAobpPuani()} *  ${alanEtki.getAobp()} ">Id</td>
+								<td th:if="${Ogrenci.getOncekiSeneYerlesme() == 1 &&  Ogrenci.getLiseAlan() == 1}" th:text="${Ogrenci.getAobpPuani()} * ${alanEtki.getAobp()} /2 +  ${Ogrenci.getAobpPuani()}  * ${alanEtki.getAobpEkstraKatSayi()}">Id</td>
+								<td th:if="${Ogrenci.getOncekiSeneYerlesme() == 1 &&  Ogrenci.getLiseAlan() == 0}" th:text="${Ogrenci.getAobpPuani()} * ${alanEtki.getAobp()} /2">Id</td>
+																			
+								<td th:text="${Ogrenci.getYp()}">Id</td>																									
+							</tr>
+						<tbody>
+					</table>
+					
+			        <div th:if="${totalPages > 1}" class="pagination justify-content-center">
+			            <ul class="pagination">
+			                <li th:if="${currentPage > 0}" class="page-item">
+			                    <a class="page-link" th:href="@{/sonuclar(page=0)}">İlk</a>
+			                </li>
+			                <li th:if="${currentPage > 0}" class="page-item">
+			                    <a class="page-link" th:href="@{/sonuclar(page=${currentPage - 1})}">Önceki</a>
+			                </li>
+			                <li th:if="${currentPage > 4}" class="page-item">
+			                    <a class="page-link" th:href="@{/sonuclar(page=${currentPage - 5})}">...</a>
+			                </li>
+			                <li th:if="${currentPage < totalPages -1}" th:each="i : ${#numbers.sequence(currentPage, currentPage + 4)}"
+			                    th:classappend="${currentPage == i} ? 'page-item active' : 'page-item'">
+			                    <a class="page-link" th:href="@{/sonuclar(page=${i})}" th:text="${i + 1}"></a>
+			                </li>
+			                <li th:if="${currentPage < totalPages - 1}" class="page-item">
+			                    <a class="page-link" th:href="@{/sonuclar(page=${currentPage + 5})}">...</a>
+			                </li>
+			                <li th:if="${currentPage < totalPages - 6}" class="page-item">
+			                    <a class="page-link" th:href="@{/sonuclar(page=${currentPage + 1})}">Sonraki</a>
+			                </li>
+			                <li th:if="${currentPage < totalPages - 1}" class="page-item">
+			                    <a class="page-link" th:href="@{/sonuclar(page=${totalPages - 1})}">Son</a>
+			                </li>
+			            </ul>
+			        </div>
+			        
+			    </div>
+			</div>
+	</body>
+</html>

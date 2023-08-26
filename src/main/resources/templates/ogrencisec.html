@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Öğrenci Seç</title>
+		<div th:replace="fragments :: ust-menu"></div>
+			<style type="text/css">
+										.icon {
+									color:white;
+									font-size: 40px; /* İkonların boyutu küçültüldü */
+									margin: 30px;
+									width: 80px;
+									height: 80px;
+									line-height: 80px;
+									border-radius: 50%;
+						}
+						
+						.icon:hover{
+							color:gray;
+							cursor:pointer;
+						}
+						.arrow {
+							background-color: green; /* Yeşil arka plan rengi */
+							color: white;
+						}
+						.status {
+							text-align:center;
+							font-size: 18px;
+							font-weight: bold;
+							margin-top: 5px;
+							/* Açıklama metinlerinin altında boşluk bırakmak için */
+						}
+							.cross {
+						background-color: red; /* Kırmızı arka plan rengi */
+						color: white;
+						}
+			
+			</style>
+	</head>
+	<body>
+		<div class="container"  style = "padding:14px;	border-radius: 10px; box-shadow: 0 0 5px rgba(0, 0, 0, 0.3); ">
+			<div class="row">
+			    <div class="col-md-4" >
+			        <h1>Öğrenci Seç</h1>
+			     	<form th:action="@{/ogrencisec}" method="post">
+			     		<input type="text"   class="form-control"   style="margin:10px; width:100%; border-color: #007bff;  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);"   maxlength="11" id="rakamInput"  name="tcno" placeholder="Tc No..." autofocus="autofocus" required="required">
+				        <button type="submit" class="btn btn-primary" style=" margin:10px; width:100%; margin-top:10px; margin-bottom:10px;">Öğrenci Seç</button>
+			     	</form>
+		       	</div>	
+
+		<div class="col-md-8">
+					   <div th:if="${param.parkurdaogrencivar}">
+				    	<h4 class="alert alert-danger">Parkurda aday mevcut. Tamamlanmadan sıradaki alınamaz!</h4>
+				    </div>
+				    <div th:if="${param.mevcutdegil}">
+				    	<h4 class="alert alert-danger">Öğrenci Mevcut Değil.</h4>
+				    </div>    
+				    <div th:if="${param.error}">
+				    	<h4 class="alert alert-danger">Durum ayarlanırken hata oluştu. Tekrar deneyiniz.</h4>
+				    </div>  
+				    <div th:if="${param.parkurda}">
+				    	<h4 class="alert alert-success">Durum parkurda olarak ayarlandı.</h4>
+				    </div>   
+				   	<div th:if="${param.girmedi}">
+				    	<h4 class="alert alert-success">Durum Sınava Girmedi olarak ayarlandı.</h4>
+				    </div> 				
+				    <div  th:if="${secilenogrenci != null}" style="padding-left:100px; padding-top:10px;">
+						<div class="row" >
+								<div class="row">
+										<div class="col"  >
+												<img th:src="${path}" alt="Aday ogrenci" style="max-width:100%; height:300px;">  
+										</div>
+										<div class="col" >
+											<p>
+												Tc no : <b th:text="${secilenogrenci.getTcNo()}"></b>
+											</p>
+											<p>
+												Ad Soyad : <b th:text="${secilenogrenci.getAdSoyad()}"></b>
+											</p>
+											<p>
+												Tercih Edilen Bölüm : <b th:text="${secilenogrenci.getBasBolum()}"></b>
+											</p>
+											<p>
+												Milli : <b th:text="${secilenogrenci.getMilliSporcu()}"></b>
+											</p>
+											<p>
+												Durum : <b th:text="${secilenogrenci.getDurum().getDurumu()}"></b>
+											</p>
+											<table class="table table-hover table-secondary table-bordered">
+											        <tr>
+											            <td class="col">Süre</td>
+											            <td th:text="${secilenogrenci.getSinav().getSure()}" style="font-weight: bold;"></td>
+											        </tr>
+											        <tr>
+											            <td class="col">Hata Puanı</td>
+											            <td th:text="${secilenogrenci.getSinav().getHataPuani()}"  style="font-weight: bold;"></td>
+											        </tr>
+											        <tr>
+											            <td class="col">Ham Puan</td>
+											            <td th:text="${secilenogrenci.getSinav().getHamPuani()}" style="font-weight: bold;"></td>
+											        </tr>
+											        <tr>
+											            <td class="col">Puan</td>
+											            <td th:text="${secilenogrenci.getSinav().getPuan()}" style="font-weight: bold;"></td>
+											        </tr>
+											        <tr>
+											            <td class="col">Öz geçmiş puanı</td>
+											            <td th:text="${secilenogrenci.getOzgecmisPuani()}" style="font-weight: bold;"></td>
+											        </tr>
+											    </table>
+										</div>	
+								</div>
+								
+									<div class="row" style="margin-top:10px;">
+											<div class="col" style="	 display: flex; flex-direction: row; justify-content: center; ">		
+											        <div>
+											            <div class="icon arrow" ><a class="nav-link"  th:href="@{/ogrencisec/parkurda}">&#10004;</a></div>
+											            <div class="status">Parkurda</div>
+											        </div>
+											        <div>
+											            <div class="icon cross"><a  class="nav-link"  th:href="@{/ogrencisec/girmedi}">&#10006;</a></div>
+											            <div class="status">Sınava Girmedi</div>
+											    	</div>
+											    </div>							
+										</div>
+								</div>		
+				    		</div>		
+		    		</div>	    		  		    
+		      </div>
+		</div>
+		<script>
+		    const rakamInput = document.getElementById("rakamInput");
+		    
+		    rakamInput.addEventListener("input", function() {
+		        this.value = this.value.replace(/[^0-9]/g, ''); // Sadece rakam izin vermek için diğer karakterleri kaldırır
+		    });
+		</script>
+	</body>
+</html>

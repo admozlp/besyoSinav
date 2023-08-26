@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Veri Yükleme Formatı</title>
+<div st th:replace="fragments :: ust-menu"></div>
+
+
+</head>
+<body>
+	<div class="container" style="padding:0;  background-color: #f7f7f7; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+		<table class="table table-bordered">
+			<thead>
+				<tr class="alert alert-info">
+						<th>*Sistememe excel dosyası ile veri yüklenmektedir.</th>
+				</tr>
+				<tr class="alert alert-info">
+						<th>*Örnek excel dosyasına <a th:href="@{/veriyuklemeformati/excelindir}" style="text-decoration:none;">Buradan</a> ulaşabilirsiniz.</th>
+				</tr>
+				<tr class="alert alert-info">
+						<th>*Yüklenecek excel dosyasında aşağıdaki alanlar yer almalıdır. Alanları sırası örnek excel dosyası ile aynı olmalıdır, kolon isimlerinin bir önemi yoktur.</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+						<td class="row">
+							<div class="col-md-10">
+									<h6>Koyu renklendirilmiş alanlar yüklenen excel tablosunda dolu olması gereken alanlardr</h6>
+									<h6>Açık renkli yazılanlar yüklenen dosyada boş olabilirler.</h6>
+								
+									<p><b>*id : </b>Sıra numarasıdır. Ön kayıt aşamasında oluşan veri tabanı kayıt numarasıdır.</p>
+									
+									<p><b>*cinsiyet : </b>Erkek veya Bayan şeklinde yazılmalıdır.</p>
+									
+									<p><b>*bas_bolum: </b>Beden Eğitimi ve Spor Eğitimi, Spor Yöneticiliği, Antrenörlük Eğitimi şeklinde yazılmalıdır.</p>
+														
+									<p><b>*tyt ve aopb puanı: </b>Web servislerden gelen veriler direkt yazılmalıdır. Nokta veya vigülle küsüratlar yazılabilir.</p>
+									
+									<p><b>*lise_alan: </b>Bütün adaylar için 0 (rakam) olmalıdır.</p>
+									
+									<p><b>*onceki_sene_yerlesme: </b>Yerleşenler için 1 yerleşmeyenler için 0 yazılmalıdır</p>
+									
+									<p><b>*milli_sporcu: </b>Milli olanlar 1 olmayanlar için 0 yazılmalıdır</p>
+									
+									<p><b>*durum: </b>Veriler yüklenirken tüm adaylar için Sınava Girmedi şeklinde olmalıdır.</p>			
+									
+									<p>dogum_tarihi : elle veriler girilmemelidir. sistemden gelen veriler sola yaslıdır dikkat ediniz. örnek tablodaki formatla aynı olmalıdır (dd.MM.yyyy)</p>
+									<p>kayit_tarihi : doğum tarihi ile aynı kurallar geçerlidir. Örnek tablodaki formatla aynı olmalıdır (dd.MM.yyyy-HH:mm)</p>
+									<p>tarih : doğum tarihi ile aynı kurallar geçerlidir. Örnek tablodaki formatla aynı olmalıdır (dd.MM.yyyy)</p>		
+									
+									<img alt="örnek excel tablo görseli" style="width:100%;" src="/ornekExcelImage/ornek_excel.jpg">							
+																		
+							</div>
+							<div class="col-md-2">
+									<p><b>*id</b></p>
+									<p>tc_no</p>
+									<p>adi_soyadi</p>																		
+									<p><b>*cinsiyet</b></p>
+									<p>dogum_tarihi</p>
+									<p>dogum_yeri</p>
+									<p>bas_bolum</p>
+									<p><b>*tyt puanı</b></p>
+									<p><b>*aopb puanı</b></p>
+									<p>mezun_lise</p>
+									<p>mezun_lise_turu</p>
+									<p>mezun_lise_bolum</p>
+									<p><b>*lise_alan</b></p>
+									<p><b>*onceki_sene_yerlesme</b></p>
+									<p><b>*milli_sporcu</b></p>
+									<p>ozgecmis_puani</p>
+									<p>resim</p>
+									<p>telefon</p>
+									<p>kayit_tarihi</p>
+									<p>sira_no</p>
+									<p>sure</p>
+									<p>hata_puani</p>
+									<p>ham_puani</p>
+									<p>puan</p>
+									<p>zaman</p>
+									<p><b>*durum</b></p>												
+									<p>tarih</p>									
+									<p>saat</p>
+									<p>ipadresi</p>																											
+							</div>
+						</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+</body>
+</html>

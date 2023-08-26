@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Alanları Güncelle</title>
+<div th:replace="fragments :: ust-menu"></div>
+	<style type="text/css">
+		input{
+			margin-bottom:5px;
+			margin-right:5px;
+		}
+	</style>
+</head>
+<body>
+	<div class="container-fluid" style="padding:0px 120px;">
+		<div class="row">
+		
+		<div class="col-sm-4">
+		<div th:if="${param.error}">
+			<h2 style="color:red;">Bir sorun oluştu! Tekrar deneyiniz</h2>
+		</div>
+			<h3>Erkek Puanlama</h3>
+			<div class="inputs-container" >
+				<div style="margin-bottom:10px;">
+					<label style="margin-right:240px;">Süre</label>
+					<label>Puan</label>
+				</div>
+				<form method="post" th:action="@{/erkekpuanguncelle}" th:object="${erkekPuanlarListe}">
+					<div class="row" th:each="puan, iterStat : *{erkekPuanlar}">
+						<input  class="form-control form-control-sm col"  th:field="*{erkekPuanlar[__${iterStat.index}__].sure}" type="text" placeholder="Süre" required>
+						<input  class="form-control form-control-sm col" th:field="*{erkekPuanlar[__${iterStat.index}__].puan}" type="text" placeholder="Puan" required>
+					</div>
+					<button type="submit"   style="width:92%; margin-top:10px;"  id="erkek-guncelle" class="btn btn-primary">Güncelle</button>					
+				</form>
+			</div>
+		</div>
+		<div class="col-sm-4">
+			<h3>Bayan Puanlama</h3>
+			<div class="inputs-container" >
+				<div style="margin-bottom:10px;">
+					<label style="margin-right:240px;">Süre</label>
+					<label>Puan</label>
+				</div>
+				<form method="post" th:action="@{/bayanpuanguncelle}" th:object="${bayanPuanlarListe}">
+					<div class="row" th:each="sure, index : *{bayanPuanlar}">
+						<input  class="form-control form-control-sm col"  th:field="*{bayanPuanlar[__${index.index}__].sure}" type="text" placeholder="Süre" required>
+						<input class="form-control form-control-sm col"   th:field="*{bayanPuanlar[__${index.index}__].puan}" type="text" placeholder="Puan" required>
+					</div>
+					<button type="submit"   style="width:92%; margin-top:10px;"  id="bayan-guncelle" class="btn btn-primary">Güncelle</button>					
+				</form>
+			</div>
+		</div>
+		<div class="col-sm-4">
+			<h3>Alanların Etkisi</h3>
+			<div style="margin-bottom:10px;">
+				<label style="margin-right:150px;">Alan</label>
+				<label>Etki</label>
+			</div>	
+				<div class="inputs-container">	
+				<form method="post"  th:action="@{/alanetkileriguncelle}"  th:object="${alanEtkisi}">
+					<div class="row">
+						<input class="form-control form-control-sm col"  value="ÖYSP" type="text" placeholder="Alan" disabled>
+						<input class="form-control form-control-sm col"  th:field="*{oysp}"  type="text" placeholder="Yüzde" required>
+						<input class="form-control form-control-sm col"  th:field="*{oyspTamKatSayi}"  type="text" placeholder="Yüzde" required>
+					</div>
+					
+					<div class="row">
+						<input class="form-control form-control-sm col"  value="AOBP" type="text" placeholder="Alan" disabled> 
+						<input class="form-control form-control-sm col"  th:field="*{aobp}"   type="text" placeholder="Yüzde" required>
+						<input class="form-control form-control-sm col"  th:field="*{aobpEkstraKatSayi}"   type="text" placeholder="Yüzde" required>						
+					</div>
+					<div class="row">
+						<input class="form-control form-control-sm col"  value="TYT" type="text" placeholder="Alan" disabled> 
+						<input class="form-control form-control-sm col"  th:field="*{tyt}"  type="text" placeholder="Yüzde" required>
+					</div>
+				<button type= "submit"  style="width:92%; margin-top:10px;" class="btn btn-primary">Güncelle</button>
+				</form>
+			</div>		
+		</div>
+		</div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Ahi Evran Üniversitesi - Besyo Sınavı</title>
+  <link rel="stylesheet" href="/css/home.css">
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <div th:replace="fragments :: ust-menu"></div>
+	    <script>
+	        document.getElementById('selectedOption').addEventListener('change', function() {
+            document.getElementById('yilForm').submit();
+        });
+	        
+	        document.getElementById('secilenformat').addEventListener('change', function() {
+	            document.getElementById('formatForm').submit();
+	        });
+    </script>
+</head>
+
+<body>
+	<div class="container" style="padding:opx;">
+		<h2 style="text-align:center; margin-top:50px;">İstatistikler</h2>
+		<div class="row " >
+		    <div class="col">
+		        <form th:action="@{/}" method="get" id="yilForm">
+		            <select name="selectedOption" th:onchange="'this.form.submit()'" id="selectedOption" style="max-width:60%; margin-bottom: 5px; margin-top:30px;" class="form-select form-control">
+		                <option th:each="option : ${options}" th:text="${option}" th:selected="${option == selectedOption}"></option>
+		            </select>
+		        </form>
+		    </div>
+			<div class="col" ></div>
+		    <div class="col" >
+		        <form th:action="@{/}" method="get" id="formatForm" style="padding-left:220px;">
+		            <select name="secilenformat" th:onchange="'this.form.submit()'" id="secilenformat" style="max-width:60%; margin-bottom: 5px; margin-top:30px;" class="form-select form-control">
+		                <option th:each="format : ${formatlar}" th:text="${format}" th:selected="${format == secilenformat}"></option>
+		            </select>
+		        </form>
+		    </div>
+		</div>
+
+			<div th:if="${secilenformat == 'Grafik'}">
+					<table  class="columns"  style="margin-top:20px; padding:0px;">		
+					      <tr>
+					        <td><div id="genel-durum" style="border: 1px solid #ccc"></div></td>
+					        <td><div id="genel-durum-erkekler" style="border: 1px solid #ccc"></div></td>
+					        <td><div id="genel-durum-bayan" style="border: 1px solid #ccc"></div></td>
+					      </tr>
+					      <tr>
+					        <td><div id="milli-olmayan-erkekler" style="border: 1px solid #ccc"></div></td>
+					        <td><div id="milli-olmayan-bayanlar" style="border: 1px solid #ccc"></div></td>
+					        <td><div id="milli-erkekler" style="border: 1px solid #ccc"></div></td>
+					      </tr>
+					      <tr>
+					           <td><div id="milli-bayanlar" style="border: 1px solid #ccc"></div></td>      
+					      </tr>
+				    </table>
+			</div>
+					
+			
+			<div  th:if="${secilenformat == 'Tablo'}" >
+		
+					<h3>Genel Durum</h3>
+					<table border="1" class="table table-hover table-secondary table-bordered">		
+					    <tr>
+					    	<td colspan="1"></td>
+					        <th colspan="2" style="text-align:center;">Milli</th>
+					        <th colspan="2"   style="text-align:center;">Milli Olmayan</th>
+					        <th colspan="2"   style="text-align:center;">Toplam</th>
+					    </tr>
+					    <tr>
+					    	<td></td>					    
+					        <td style="text-align:center;">Erkek</td>
+					        <td style="text-align:center;">Bayan</td>
+					        <td style="text-align:center;">Erkek</td>
+					        <td style="text-align:center;">Bayan</td>
+					        <td style="text-align:center;"></td>
+					    </tr>
+					    <tr>
+					        <th style="text-align:end;">Beden Eğitimi ve Spor Eğitimi</th>
+					        <td  th:text="${istatistics.get(3)}"></td>
+					        <td th:text="${istatistics.get(9)}"></td>
+					        <td th:text="${istatistics.get(4)}"></td>
+					        <td th:text="${istatistics.get(10)}"></td>
+					        <td th:text="${istatistics.get(0)}"></td>
+					    </tr>
+					    
+					    <tr>
+					        <th style="text-align:end;">Antrenörlük Eğitimi</th>
+					        <td  th:text="${istatistics.get(5)}"></td>
+					        <td th:text="${istatistics.get(11)}"></td>
+					        <td th:text="${istatistics.get(6)}"></td>
+					        <td th:text="${istatistics.get(12)}"></td>
+					        <td th:text="${istatistics.get(1)}"></td>
+					    </tr>
+					    <tr>
+					        <th style="text-align:end;">Spor Yöneticiliği</th>
+					        <td  th:text="${istatistics.get(7)}"></td>
+					        <td th:text="${istatistics.get(13)}"></td>
+					        <td th:text="${istatistics.get(8)}"></td>
+					        <td th:text="${istatistics.get(14)}"></td>
+					        <td th:text="${istatistics.get(2)}"></td>
+					    </tr>
+					</table>
+				
+					<h3>Milli</h3>
+					<table border="1" class="table table-hover table-secondary table-bordered">		
+					    <tr>
+					    	<td colspan="1"></td>
+					        <th colspan="3" style="text-align:center;">Erkek</th>
+					        <th colspan="3"   style="text-align:center;">Bayan</th>
+					        <th colspan="1"   style="text-align:center;">Toplam</th>
+					    </tr>
+					    <tr>
+					    	<td></td>					    
+					        <td style="text-align:center;">Sınava Girdi</td>
+					        <td style="text-align:center;">Sınava Girmedi</td>
+					        <td style="text-align:center;">Diskalifiye Edildi</td>
+					        <td style="text-align:center;">Sınava Girdi</td>
+					        <td style="text-align:center;">Sınava Girmedi</td>
+					        <td style="text-align:center;">Diskalifiye Edildi</td>
+					        <td></td>					    
+					        
+					    </tr>
+					    <tr>
+					        <th style="text-align:end;">Beden Eğitimi ve Spor Eğitimi</th>
+					        <td  th:text="${istatistics.get(33)}"></td>
+					        <td th:text="${istatistics.get(35)}"></td>
+					        <td th:text="${istatistics.get(34)}"></td>
+					        <td th:text="${istatistics.get(42)}"></td>
+					        <td th:text="${istatistics.get(44)}"></td>
+					        <td th:text="${istatistics.get(43)}"></td>
+					        <td th:text="${istatistics.get(33)} + ${istatistics.get(35)} + ${istatistics.get(34)} + ${istatistics.get(42)} +${istatistics.get(44)} + ${istatistics.get(43)}"></td>					        
+					    </tr>
+					    
+					    <tr>
+					        <th style="text-align:end;">Antrenörlük Eğitimi</th>
+					        <td  th:text="${istatistics.get(36)}"></td>
+					        <td th:text="${istatistics.get(38)}"></td>
+					        <td th:text="${istatistics.get(37)}"></td>
+					        <td th:text="${istatistics.get(45)}"></td>
+					        <td th:text="${istatistics.get(47)}"></td>
+					        <td th:text="${istatistics.get(46)}"></td>
+					        <td th:text="${istatistics.get(36)} + ${istatistics.get(37)} + ${istatistics.get(38)} + ${istatistics.get(45)} +${istatistics.get(46)} + ${istatistics.get(47)}"></td>					        
+					    </tr>
+					    <tr>
+					        <th style="text-align:end;">Spor Yöneticiliği</th>
+					        <td  th:text="${istatistics.get(39)}"></td>
+					        <td th:text="${istatistics.get(41)}"></td>
+					        <td th:text="${istatistics.get(40)}"></td>
+					        <td th:text="${istatistics.get(48)}"></td>
+					        <td th:text="${istatistics.get(50)}"></td>
+					        <td th:text="${istatistics.get(49)}"></td>
+					        <td th:text="${istatistics.get(39)} + ${istatistics.get(40)} + ${istatistics.get(41)} + ${istatistics.get(48)} +${istatistics.get(49)} + ${istatistics.get(50)}"></td>					        
+					    </tr>
+					</table>
+					
+					<h3>Milli Olmayanlar</h3>
+					<table border="1" class="table table-hover table-secondary table-bordered"  style="margin-bottom:30px;">		
+					    <tr>
+					    	<td colspan="1"></td>
+					        <th colspan="3" style="text-align:center;">Erkek</th>
+					        <th colspan="3"   style="text-align:center;">Bayan</th>
+					        <th colspan="1"   style="text-align:center;">Toplam</th>
+					    </tr>
+					    <tr>
+					    	<td></td>					    
+					        <td style="text-align:center;">Sınava Girdi</td>
+					        <td style="text-align:center;">Sınava Girmedi</td>
+					        <td style="text-align:center;">Diskalifiye Edildi</td>
+					        <td style="text-align:center;">Sınava Girdi</td>
+					        <td style="text-align:center;">Sınava Girmedi</td>
+					        <td style="text-align:center;">Diskalifiye Edildi</td>
+					        <td></td>					    
+					        
+					    </tr>
+					    <tr>
+					        <th style="text-align:end;">Beden Eğitimi ve Spor Eğitimi</th>
+					        <td  th:text="${istatistics.get(15)}"></td>
+					        <td th:text="${istatistics.get(17)}"></td>
+					        <td th:text="${istatistics.get(16)}"></td>
+					        <td th:text="${istatistics.get(24)}"></td>
+					        <td th:text="${istatistics.get(26)}"></td>
+					        <td th:text="${istatistics.get(25)}"></td>
+					        <td th:text="${istatistics.get(15)} + ${istatistics.get(16)} + ${istatistics.get(17)} + ${istatistics.get(24)} +${istatistics.get(25)} + ${istatistics.get(26)}"></td>					        
+					    </tr>
+					    
+					    <tr>
+					        <th style="text-align:end;">Antrenörlük Eğitimi</th>
+					        <td  th:text="${istatistics.get(18)}"></td>
+					        <td th:text="${istatistics.get(20)}"></td>
+					        <td th:text="${istatistics.get(19)}"></td>
+					        <td th:text="${istatistics.get(27)}"></td>
+					        <td th:text="${istatistics.get(29)}"></td>
+					        <td th:text="${istatistics.get(28)}"></td>
+					        <td th:text="${istatistics.get(18)} + ${istatistics.get(19)} + ${istatistics.get(20)} + ${istatistics.get(27)} +${istatistics.get(28)} + ${istatistics.get(29)}"></td>					        
+					    </tr>
+					    <tr>
+					        <th style="text-align:end;">Spor Yöneticiliği</th>
+					        <td  th:text="${istatistics.get(21)}"></td>
+					        <td th:text="${istatistics.get(23)}"></td>
+					        <td th:text="${istatistics.get(22)}"></td>
+					        <td th:text="${istatistics.get(30)}"></td>
+					        <td th:text="${istatistics.get(32)}"></td>
+					        <td th:text="${istatistics.get(31)}"></td>
+					        <td th:text="${istatistics.get(21)} + ${istatistics.get(22)} + ${istatistics.get(23)} + ${istatistics.get(30)} +${istatistics.get(31)} + ${istatistics.get(32)}"></td>					        
+					    </tr>
+					</table>
+			</div>
+	</div>
+    
+    <script th:inline="javascript">
+        var bedentoplam = /*[[${istatistics.get(0)}]]*/ [];
+        var antrenortoplam = /*[[${istatistics.get(1)}]]*/ [];
+        var yonetici = /*[[${istatistics.get(2)}]]*/ [];
+        
+        var erkekbedenmilli = /*[[${istatistics.get(3)}]]*/ [];
+        var erkekbedenmillidegil = /*[[${istatistics.get(4)}]]*/ [];
+        var erkekantrenormilli = /*[[${istatistics.get(5)}]]*/ [];
+        var erkekantrenormillidegil = /*[[${istatistics.get(6)}]]*/ [];
+        var erkekyoneticimilli = /*[[${istatistics.get(7)}]]*/ [];
+        var erkekyoneticimillidegil = /*[[${istatistics.get(8)}]]*/ [];
+        
+        var bayanbedenmilli = /*[[${istatistics.get(9)}]]*/ [];
+        var bayanbedenmillidegil = /*[[${istatistics.get(10)}]]*/ [];
+        var bayanantrenormilli = /*[[${istatistics.get(11)}]]*/ [];
+        var bayanantrenormillidegil = /*[[${istatistics.get(12)}]]*/ [];
+        var bayanyoneticimilli = /*[[${istatistics.get(13)}]]*/ [];
+        var bayanyoneticimillidegil = /*[[${istatistics.get(14)}]]*/ [];
+        
+        
+        var erkekmillidegilbedensinavagirdi = /*[[${istatistics.get(15)}]]*/ [];
+        var erkekmillidegilbedendiskalifiye = /*[[${istatistics.get(16)}]]*/ [];
+        var erkekmillidegilbedensinavagirmedi = /*[[${istatistics.get(17)}]]*/ [];
+        var erkekmillidegilantrenorsinavagirdi = /*[[${istatistics.get(18)}]]*/ [];
+        var erkekmillidegilantrenordiskalifiye = /*[[${istatistics.get(19)}]]*/ [];
+        var erkekmillidegilantrenorsinavagirmedi = /*[[${istatistics.get(20)}]]*/ [];
+        var erkekmillidegilyoneticiliksinavagirdi = /*[[${istatistics.get(21)}]]*/ [];
+        var erkekmillidegilyoneticilikdiskalifiye = /*[[${istatistics.get(22)}]]*/ [];
+        var erkekmillidegilyoneticiliksinavagirmedi = /*[[${istatistics.get(23)}]]*/ [];
+        
+        
+        var bayanmillidegilbedensinavagirdi = /*[[${istatistics.get(24)}]]*/ [];
+        var bayanmillidegilbedendiskalifiye = /*[[${istatistics.get(25)}]]*/ [];
+        var bayanmillidegilbedensinavagirmedi = /*[[${istatistics.get(26)}]]*/ [];
+        var bayanmillidegilantrenorsinavagirdi = /*[[${istatistics.get(27)}]]*/ [];
+        var bayanmillidegilantrenordiskalifiye = /*[[${istatistics.get(28)}]]*/ [];
+        var bayanmillidegilantrenorsinavagirmedi = /*[[${istatistics.get(29)}]]*/ [];
+        var bayanmillidegilyoneticiliksinavagirdi = /*[[${istatistics.get(30)}]]*/ [];
+        var bayanmillidegilyoneticilikdiskalifiye = /*[[${istatistics.get(31)}]]*/ [];
+        var bayanmillidegilyoneticiliksinavagirmedi = /*[[${istatistics.get(32)}]]*/ [];
+        
+        
+        
+        var erkekmillibedensinavagirdi = /*[[${istatistics.get(33)}]]*/ [];
+        var erkekmillibedendiskalifiye = /*[[${istatistics.get(34)}]]*/ [];
+        var erkekmillibedensinavagirmedi = /*[[${istatistics.get(35)}]]*/ [];
+        var erkekmilliantrenorsinavagirdi = /*[[${istatistics.get(36)}]]*/ [];
+        var erkekmilliantrenordiskalifiye = /*[[${istatistics.get(37)}]]*/ [];
+        var erkekmilliantrenorsinavagirmedi = /*[[${istatistics.get(38)}]]*/ [];
+        var erkekmilliyoneticiliksinavagirdi = /*[[${istatistics.get(39)}]]*/ [];
+        var erkekmilliyoneticilikdiskalifiye = /*[[${istatistics.get(40)}]]*/ [];
+        var erkekmilliyoneticiliksinavagirmedi = /*[[${istatistics.get(41)}]]*/ [];
+        
+        var bayanmillibedensinavagirdi = /*[[${istatistics.get(42)}]]*/ [];
+        var bayanmillibedendiskalifiye = /*[[${istatistics.get(43)}]]*/ [];
+        var bayanmillibedensinavagirmedi = /*[[${istatistics.get(44)}]]*/ [];
+        var bayanmilliantrenorsinavagirdi = /*[[${istatistics.get(45)}]]*/ [];
+        var bayanmilliantrenordiskalifiye = /*[[${istatistics.get(46)}]]*/ [];
+        var bayanmilliantrenorsinavagirmedi = /*[[${istatistics.get(47)}]]*/ [];
+        var bayanmilliyoneticiliksinavagirdi = /*[[${istatistics.get(48)}]]*/ [];
+        var bayanmilliyoneticilikdiskalifiye = /*[[${istatistics.get(49)}]]*/ [];
+        var bayanmilliyoneticiliksinavagirmedi = /*[[${istatistics.get(50)}]]*/ [];
+        
+        
+        google.charts.load('current', {'packages':['corechart']});
+        google.charts.setOnLoadCallback(drawGenelDurumChart);
+        google.charts.setOnLoadCallback(drawErkekGenelDurumChart);
+        google.charts.setOnLoadCallback(drawGenelDurumBayan);
+        google.charts.setOnLoadCallback(drawMilliOlmayanErkekler);
+        google.charts.setOnLoadCallback(drawMilliOlmayanBayanlar);        
+        google.charts.setOnLoadCallback(drawMilliErkekler);
+        google.charts.setOnLoadCallback(drawMilliBayanlar);
+
+        function drawGenelDurumChart() {
+          var data = new google.visualization.DataTable();
+          data.addColumn('string', 'Topping');
+          data.addColumn('number', 'Slices');
+          data.addRows([
+            ['Beden Eğitimi ve Spor Eğitimi', bedentoplam],
+            ['Antrenörlük Eğitimi', antrenortoplam],
+            ['Spor Yöneticiliği', yonetici],
+          ]);
+
+          var options = {title:'Genel Durum',
+                         width:410,
+                         'is3D':true,
+                         height:300};
+          var chart = new google.visualization.PieChart(document.getElementById('genel-durum'));
+          chart.draw(data, options);
+        }
+
+        function drawErkekGenelDurumChart() {
+          var data = new google.visualization.DataTable();
+          data.addColumn('string', 'Topping');
+          data.addColumn('number', 'Erkek');
+	          data.addRows([
+            ['Beden Eğitimi Ve Spor Eğitimi Milli Olanlar', erkekbedenmilli],
+            ['Beden Eğitimi Ve Spor Eğitimi Milli Olmayanlar', erkekbedenmillidegil],
+            ['Antrenörlük Eğitimi Milli Olanlar', erkekantrenormilli],
+            ['Antrenörlük Eğitimi Milli Olmayanlar', erkekantrenormillidegil],
+            ['Spor Yöneticiliği Milli Olanlar', erkekyoneticimilli],
+            ['Spor Yöneticiliği Milli Olmayanlar', erkekyoneticimillidegil]
+          ]);
+          var options = {title:'Erkek Genel Durum',
+                         width:400, 
+                         
+                         height:300};
+          var chart = new google.visualization.BarChart(document.getElementById('genel-durum-erkekler'));
+          chart.draw(data, options);
+        }
+        
+        function drawGenelDurumBayan() {
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'Topping');
+            data.addColumn('number', 'Bayan');
+            data.addRows([
+              ['Beden Eğitimi Ve Spor Eğitimi Milli Olanlar', bayanbedenmilli],
+              ['Beden Eğitimi Ve Spor Eğitimi Milli Olmayanlar', bayanbedenmillidegil],
+              ['Antrenörlük Eğitimi Milli Olanlar', bayanantrenormilli],
+              ['Antrenörlük Eğitimi Milli Olmayanlar', bayanantrenormillidegil],
+              ['Spor Yöneticiliği Milli Olanlar', bayanyoneticimilli],
+              ['Spor Yöneticiliği Milli Olmayanlar', bayanyoneticimillidegil]
+            ]);
+            var options = {title:'Bayan Genel Durum',
+                           width:400,
+                           height:300};
+            var chart = new google.visualization.BarChart(document.getElementById('genel-durum-bayan'));
+            chart.draw(data, options);
+          }
+        
+        function drawMilliOlmayanErkekler() {
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'Topping');
+            data.addColumn('number', 'MilliOlmayanErkek');
+            data.addRows([
+              ['Beden Eğitimi Ve Spor Eğitimi Sınava Girenler', erkekmillidegilbedensinavagirdi],
+              ['Beden Eğitimi Ve Spor Eğitimi Diskalifiye Olanlar', erkekmillidegilbedendiskalifiye],
+              ['Beden Eğitimi Ve Spor Eğitimi Sınava Girmeyenler', erkekmillidegilbedensinavagirmedi],
+              
+              ['Antrenörlük Eğitimi Sınava Girenler', erkekmillidegilantrenorsinavagirdi],
+              ['Antrenörlük EğitimiDiskalifiye Olanlar', erkekmillidegilantrenordiskalifiye],
+              ['Antrenörlük Eğitimi Sınava Girmeyenler', erkekmillidegilantrenorsinavagirmedi],
+              
+              ['Spor Yöneticiliği Sınava Girenler', erkekmillidegilyoneticiliksinavagirdi],
+              ['Spor YöneticiliğiDiskalifiye Olanlar', erkekmillidegilyoneticilikdiskalifiye],
+              ['Spor Yöneticiliği Sınava Girmeyenler', erkekmillidegilyoneticiliksinavagirmedi],
+            ]);
+ 
+            var options = {title:'Milli Olmayan Erkekler',
+                           width:400,
+                           'is3D':true,
+                           height:300};
+            var chart = new google.visualization.PieChart(document.getElementById('milli-olmayan-erkekler'));
+            chart.draw(data, options);
+          }
+        
+        
+        function drawMilliOlmayanBayanlar() {
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'Topping');
+            data.addColumn('number', 'MilliOlmayanErkek');
+            data.addRows([
+              ['Beden Eğitimi Ve Spor Eğitimi Sınava Girenler', bayanmillidegilbedensinavagirdi],
+              ['Beden Eğitimi Ve Spor Eğitimi Diskalifiye Olanlar', bayanmillidegilbedendiskalifiye],
+              ['Beden Eğitimi Ve Spor Eğitimi Sınava Girmeyenler', bayanmillidegilbedensinavagirmedi],
+              
+              ['Antrenörlük Eğitimi Sınava Girenler', bayanmillidegilantrenorsinavagirdi],
+              ['Antrenörlük EğitimiDiskalifiye Olanlar', bayanmillidegilantrenordiskalifiye],
+              ['Antrenörlük Eğitimi Sınava Girmeyenler', bayanmillidegilantrenorsinavagirmedi],
+              
+              ['Spor Yöneticiliği Sınava Girenler', bayanmillidegilyoneticiliksinavagirdi],
+              ['Spor YöneticiliğiDiskalifiye Olanlar', bayanmillidegilyoneticilikdiskalifiye],
+              ['Spor Yöneticiliği Sınava Girmeyenler', bayanmillidegilyoneticiliksinavagirmedi],
+            ]);
+ 
+            var options = {title:'Milli Olmayan Bayanlar',
+                           width:400,
+                           'is3D':true,
+
+                           height:300};
+            
+            var chart = new google.visualization.PieChart(document.getElementById('milli-olmayan-bayanlar'));
+            chart.draw(data, options);
+          }
+        
+        function drawMilliErkekler() {
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'Topping');
+            data.addColumn('number', 'MilliErkek');
+            data.addRows([
+                ['Beden Eğitimi Ve Spor Eğitimi Sınava Girenler', erkekmillibedensinavagirdi],
+                ['Beden Eğitimi Ve Spor Eğitimi Diskalifiye Olanlar', erkekmillibedendiskalifiye],
+                ['Beden Eğitimi Ve Spor Eğitimi Sınava Girmeyenler', erkekmillibedensinavagirmedi],
+                
+                ['Antrenörlük Eğitimi Sınava Girenler', erkekmilliantrenorsinavagirdi],
+                ['Antrenörlük EğitimiDiskalifiye Olanlar', erkekmilliantrenordiskalifiye],
+                ['Antrenörlük Eğitimi Sınava Girmeyenler', erkekmilliantrenorsinavagirmedi],
+                
+                ['Spor Yöneticiliği Sınava Girenler', erkekmilliyoneticiliksinavagirdi],
+                ['Spor YöneticiliğiDiskalifiye Olanlar', erkekmilliyoneticilikdiskalifiye],
+                ['Spor Yöneticiliği Sınava Girmeyenler', erkekmilliyoneticiliksinavagirmedi],
+              ]);
+ 
+            var options = {title:'Milli Erkekler',
+                           width:400,
+                           'is3D':true,
+
+                           height:300};
+            var chart = new google.visualization.PieChart(document.getElementById('milli-erkekler'));
+            chart.draw(data, options);
+          }                
+         
+        function drawMilliBayanlar() {
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'Topping');
+            data.addColumn('number', 'MilliBayan');
+            data.addRows([
+              ['Beden Eğitimi Ve Spor Eğitimi Sınava Girenler', bayanmillibedensinavagirdi],
+              ['Beden Eğitimi Ve Spor Eğitimi Diskalifiye Olanlar', bayanmillibedendiskalifiye],
+              ['Beden Eğitimi Ve Spor Eğitimi Sınava Girmeyenler', bayanmillibedensinavagirmedi],
+              
+              ['Antrenörlük Eğitimi Sınava Girenler', bayanmilliantrenorsinavagirdi],
+              ['Antrenörlük Eğitimi Diskalifiye Olanlar', bayanmilliantrenordiskalifiye],
+              ['Antrenörlük Eğitimi Sınava Girmeyenler', bayanmilliantrenorsinavagirmedi],
+              
+              ['Spor Yöneticiliği Sınava Girenler', bayanmilliyoneticiliksinavagirdi],
+              ['Spor YöneticiliğiDiskalifiye Olanlar', bayanmilliyoneticilikdiskalifiye],
+              ['Spor Yöneticiliği Sınava Girmeyenler', bayanmilliyoneticiliksinavagirmedi],
+            ]);
+ 
+            var options = {title:'Milli Bayanlar',
+                           width:400,
+                           'is3D':true,
+
+                           height:400};
+            var chart = new google.visualization.BarChart(document.getElementById('milli-bayanlar'));
+            chart.draw(data, options);
+          }
+        
+    </script>
+</body>
+</html>
